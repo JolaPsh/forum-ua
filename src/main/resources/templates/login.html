@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
+<head th:replace="header :: header"/>
+<body>
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+<div class="container">
+    <h1>Some title <span class="badge badge-secondary">New</span></h1>
+    <div class="design-form">
+        <div class="form-info">
+        <form th:action="@{/login}" id="login-form" method="post">
+            <div class="form-row">
+                <div class="user-avatar">
+                    <img th:src="@{/img/user-icon.png}" alt="avatar" class="avatar"/>
+                    <div class="text-heading-login">Login</div>
+                </div>
+                <div class="col-md-10">
+                    <div class="form-group">
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            <p>Invalid email or password.</p>
+                        </div>
+                        <div th:if="${param.logout}" class="alert alert-info">
+                            <p>You have been successfully logged out.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-input">
+                        <i class="far fa-user"></i>
+                        <input type="email" id="login-email" placeholder="Email" name="email" required/>
+                    </div>
+                    <div class="form-group form-input">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Password" name="password" required/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="checkbox-remember">
+                <label for="checkbox-remember" class="form-label">Remember me</label>
+            </div>
+            <div class="sign-in">
+                <button class="btn btn-lg btn-light float-xl-right rounded-0" type="submit">Sign in</button>
+            </div>
+            <div class="forgot-password">
+                <div class="text-md-left">
+                    <a href="https://www.evernote.com/ForgotPassword.action" class="forgot-password">Forgot Password?</a>
+                </div>
+            </div>
+        </form>
+        </div>
+        <!--Sign in using social provider-->
+        <div class="login-social-provider">
+            <div class="inner-social-login">
+            <a class="sign-in-btn sign-in-google" th:href="${googleUrl}">
+                Sign in with Google
+            </a>
+            <a class="sign-in-btn sign-in-facebook" th:href="${facebookUrl}">
+                Sign in with Facebook
+            </a>
+            </div>
+        </div>
+        <div class="text-end-login">Don't have an account? <a th:href="@{/register}">
+            <h>Register here</h>
+        </a>
+        </div>
+    </div>
+</div>
+<div th:replace="footer :: footer"/>
+</body>
+</html>

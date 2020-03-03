@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="header :: header"/>
+<body>
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+<div class="container">
+    <h1>Some title <span class="badge badge-secondary">New</span></h1>
+    <div class="design-form">
+        <div class="form-info">
+        <div class="text-heading-register">Register</div>
+        <sec:authorize access="isAnonymous()">
+            <form th:action="@{/register}" role="form" th:object="${userTo}" id="register-form" method="post"
+                  oninput='confirmPassword.setCustomValidity(confirmPassword.value!=password.value ? "Passwords don\u0027t match" : "")'>
+                <div class="form-row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                        </div>
+                        <div class="form-group form-input">
+                            <i class="far fa-user"></i>
+                            <input type="text" th:field="*{username}" id="register-username" placeholder="Username"
+                                   name="username"
+                                   pattern="^.{6,15}$"
+                                   title="Username should contain at least 6 characters"/>
+                        </div>
+                        <div class="form-group form-input">
+                            <i class="far fa-envelope"></i>
+                            <input type="email" th:field="*{email}" id="register-email" placeholder="Email"
+                                   name="email"
+                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                   title="Email is not valid"/>
+                        </div>
+                        <div class="form-group form-input">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" th:field="*{password}" id="register-password" placeholder="Password"
+                                   name="password" required/>
+                        </div>
+                        <div class="form-group form-input">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" th:field="*{confirmPassword}" id="confirm-password"
+                                   placeholder="Confirm password"
+                                   name="confirmPassword" required/>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-lg btn-light float-xl-right rounded-0">Register</button>
+            </form>
+        </sec:authorize>
+    </div>
+        <div class="text-end-register"><a th:href="@{/login}">
+            <h>Back to Login</h>
+        </a>
+        </div>
+    </div>
+</div>
+<div th:replace="footer :: footer"/>
+</body>
+</html>

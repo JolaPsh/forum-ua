@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="header :: header"/>
+<body>
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+<nav class="navbar navbar-dark bg-dark">
+    <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <a sec:authorize="isAuthenticated()">
+        <button class="btn btn-lg btn-light" type="submit">Sign out</button>
+        </a>
+    </form>
+        </nav>
+<div th:replace="footer :: footer"/>
+</body>
+</html>

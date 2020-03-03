@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="header :: header"/>
+<body>
+<div id="fullscreen_bg" class="fullscreen_bg"/>
+<div class="container">
+    <h1>Some title <span class="badge badge-secondary">New</span></h1>
+     <div class="alert alert-info">
+    <strong>
+        <div th:text="${successMessage}"></div>
+    </strong>
+    </div>
+    <div class="alert alert-info">
+        <strong>
+            <div th:text="${confirmMail}"></div>
+        </strong>
+    </div>
+    <div class="alert alert-success">
+        <a th:href="@{/login}"> Back to login </a>
+    </div>
+</div>
+<div th:replace="footer :: footer"/>
+</body>
+</html>
