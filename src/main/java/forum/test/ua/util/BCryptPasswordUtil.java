@@ -15,12 +15,9 @@ public class BCryptPasswordUtil  {
     public static void main(String[] args) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("bcrypt \"user1\": " + encoder.encode("user1"));
+        System.out.println("bcrypt \"admin\": " + encoder.encode("admin"));
         System.out.println("--------------------------------------------------------------------------------------");
         System.out.println("bcrypt \"user2\":" + encoder.encode("user2"));
         System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("bcrypt \"user3\":" + encoder.encode("user3"));
-
-        String key = env.getProperty("jdbc.username");
     }
 }
