@@ -1,7 +1,7 @@
 package forum.test.ua.config;
 
 import forum.test.ua.repository.UserRepositoryImpl;
-import forum.test.ua.service.UserService;
+import forum.test.ua.service.UserServiceImpl;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -17,7 +17,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{UserService.class,
+        return new Class<?>[]{UserServiceImpl.class,
                 UserRepositoryImpl.class,
                 DbConfig.class,
                 OAuth2SecurityConfig.class
@@ -31,7 +31,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[]{"/*"};
     }
 
     @Override

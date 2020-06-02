@@ -1,7 +1,6 @@
 package forum.test.ua.config;
 
-import forum.test.ua.model.Role;
-import forum.test.ua.service.UserService;
+import forum.test.ua.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -37,6 +37,7 @@ import static org.springframework.security.config.oauth2.client.CommonOAuth2Prov
 @Configuration
 @EnableWebSecurity
 @PropertySource("classpath:props/social-cfg.properties")
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(OAuth2SecurityConfig.class);
@@ -46,7 +47,7 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
     private Environment env;
 
     @Autowired
-    private UserService userServiceSecurity;
+    private UserServiceImpl userServiceSecurity;
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
@@ -77,11 +78,15 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/admin/**")
+                .access("hasRole('ROLE_ADMIN')")
+                .and().httpBasic();
+
+        http.authorizeRequests()
                 .antMatchers("/login**",
                         "/register**",
                         "/signin/**").permitAll()
-                .antMatchers("/**/admin/**").hasAuthority(Role.ROLE_ADMIN.getAuthority())
-                // .antMatchers("/home**").hasAuthority(Role.ROLE_USER.getAuthority())
+                .antMatchers("/home**").access("hasRole('ROLE_USER')")
                 //  .anyRequest().authenticated()
                 //  .and().httpBasic()
                 .and().csrf().disable()

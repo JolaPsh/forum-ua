@@ -97,7 +97,7 @@ public class MvcWebConfig implements WebMvcConfigurer, ApplicationContextAware {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         Properties props = new PropsUtil().getProps();
         mailSender.setHost(props.getProperty("mail.host"));
-        mailSender.setPort(Integer.valueOf(props.getProperty("mail.port")));
+        mailSender.setPort(Integer.parseInt(props.getProperty("mail.port")));
         mailSender.setUsername(props.getProperty("mail.username"));
         mailSender.setPassword(props.getProperty("mail.password"));
         mailSender.setJavaMailProperties(props);
