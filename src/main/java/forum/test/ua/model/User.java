@@ -4,10 +4,7 @@ import org.springframework.data.domain.Persistable;
 import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Joanna Pakosh, 07.2019
@@ -21,27 +18,38 @@ public class User implements Persistable<Integer> {
     private LocalDateTime registered;
     private String password;
     private boolean enabled;
+    private String status;
     private Set<Role> roles;
 
     public User() {
     }
 
     public User(User u) {
-        this(u.getId(), u.getUsername(), u.getEmail(), u.getPassword(), u.getRegistered(), u.isEnabled(), u.getRoles());
+        this(u.getId(), u.getUsername(), u.getEmail(), u.getPassword(), u.getRegistered(), u.isEnabled(), u.getStatus(), u.getRoles());
     }
 
-    public User(Integer id, String username, String email, String password, LocalDateTime registered, boolean enabled, Collection<Role> roles) {
+    public User(Integer id, String username, String email, String password, LocalDateTime registered, boolean enabled, String status, Collection<Role> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.registered = registered;
         this.password = password;
         this.enabled = enabled;
-        setRole(roles);
+        this.status = status;
+        setRoles(roles);
     }
 
-    public User(Integer id, String username, String email, String password, Role role, Role... roles) {
-        this(id, username, email, password, LocalDateTime.now(), true, EnumSet.of(role, roles));
+    public User(Integer id, String username, String email, String password, String status, Collection<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        setRoles(roles);
+    }
+
+    public User(Integer id, String username, String email, String password, String status, Role role, Role... roles) {
+        this(id, username, email, password, LocalDateTime.now(), true, status, EnumSet.of(role, roles));
     }
 
     public Integer getId() {
@@ -92,11 +100,19 @@ public class User implements Persistable<Integer> {
         this.enabled = enabled;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRole(Collection<Role> roles) {
+    public void setRoles(Collection<Role> roles) {
         this.roles = CollectionUtils.isEmpty(roles) ? Collections.emptySet() : EnumSet.copyOf(roles);
     }
 
@@ -113,6 +129,7 @@ public class User implements Persistable<Integer> {
                 ", registered=" + registered +
                 ", password='" + password + '\'' +
                 ", enabled=" + enabled +
+                ", status='" + status + '\'' +
                 ", roles=" + roles +
                 '}';
     }
