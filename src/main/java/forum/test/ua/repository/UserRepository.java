@@ -8,7 +8,7 @@ import forum.test.ua.model.User;
 
 public interface UserRepository {
 
-    User get(int id);
+    User findUserById(int id);
 
     User findByEmail(String email);
 

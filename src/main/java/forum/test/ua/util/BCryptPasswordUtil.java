@@ -17,7 +17,8 @@ public class BCryptPasswordUtil  {
         System.out.println("--------------------------------------------------------------------------------------");
         System.out.println("bcrypt \"admin\": " + encoder.encode("admin"));
         System.out.println("--------------------------------------------------------------------------------------");
-        System.out.println("bcrypt \"user2\":" + encoder.encode("user2"));
+        System.out.println("bcrypt \"user4\":" + encoder.encode("user4"));
         System.out.println("--------------------------------------------------------------------------------------");
+        System.out.println();
     }
 }

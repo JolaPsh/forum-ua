@@ -1,12 +1,9 @@
 package forum.test.ua.util;
 
-import forum.test.ua.model.Role;
 import forum.test.ua.model.User;
 import forum.test.ua.to.UserTo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.StringUtils;
-
-import java.util.Collections;
 
 /**
  * Created by Joanna Pakosh, 07.2019
@@ -14,15 +11,24 @@ import java.util.Collections;
 
 public class UserUtil {
 
+    public UserUtil () {}
+
     public static User createNewUser(UserTo newUser) {
-        return new User(null, newUser.getUsername(), newUser.getEmail(), newUser.getPassword(), Role.ROLE_USER);
+        return new User(null, newUser.getUsername(),
+                newUser.getEmail(),
+                newUser.getPassword(),
+                newUser.getStatus(),
+                newUser.getRoles());
     }
 
     public static User prepareToSave(User user, BCryptPasswordEncoder passwordEncoder) {
+        String username = user.getUsername();
+        String email = user.getEmail();
         String password = user.getPassword();
+
+        user.setUsername(StringUtils.isEmpty(username) ? username : user.getUsername().trim().toLowerCase());
         user.setPassword(StringUtils.isEmpty(password) ? password : passwordEncoder.encode(password));
-        user.setEmail(user.getEmail().trim().toLowerCase());
-        user.setRole(Collections.singletonList(Role.ROLE_USER));
+        user.setEmail(StringUtils.isEmpty(email) ? email : user.getEmail().trim().toLowerCase());
         return user;
     }
 }
