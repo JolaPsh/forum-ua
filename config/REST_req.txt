@@ -1,0 +1,31 @@
+GET user by id :
+URL: http://localhost:8080/admin/rest/users/10001
+curl -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/rest/users/10001 --user admin@gmail.com:admin
+
+GET user by email:
+URL: http://localhost:8080/admin/rest/users?email=user22@gmail.com
+curl -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/rest/users?email=user22@gmail.com --user admin@gmail.com:admin
+
+GET user by name:
+URL: http://localhost:8080/admin/rest/users/by?name=User2
+curl -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/rest/users/by?name=User2 --user admin@gmail.com:admin
+
+POST create user:
+URL: http://localhost:8080/admin/rest/users
+Body:
+{
+    "username": "rekin_s",
+    "password": "rekin_s",
+	"email": "rekin_s@ukr.net",
+	 "roles": ["ROLE_USER"]
+	}
+curl -s -X POST -d '{"username": "rekin_s", "password": "rekin_s", "email": "rekin_s@ukr.net", "roles": ["ROLE_USER"]}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/admin/rest/users --user admin@gmail.com:admin
+
+PUT update user:
+URL: http://localhost:8080/admin/rest/users/10001
+Body:
+{ "username": "user33" }
+
+DELETE delete user:
+curl -s -X DELETE http://localhost:8080/admin/rest/users/10001 --user admin@gmail.com:admin
+
