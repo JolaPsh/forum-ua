@@ -75,6 +75,19 @@ $$;
 
 alter function _updateUser(in integer, in varchar, in varchar, in varchar, out integer) owner to postgres;
 ---------------------------------------------------------------------------------------------------------------
+create or replace function _deleteUser(in pi_user_id integer) returns void
+    language plpgsql
+as
+$$
+BEGIN
+    UPDATE users
+    SET usr_status = 'C'
+    where usr_id = pi_user_id;
+END;
+$$;
+
+alter function _deleteUser(in integer) owner to postgres;
+---------------------------------------------------------------------------------------------------------------
 create or replace function _setRoles(in pi_user_id integer,
                                      out role_cursor refcursor)
     language plpgsql

@@ -68,4 +68,10 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setId(id);
         userRepository.save(prepareToSave(user, passwordEncoder));
     }
+
+    @Override
+    public void delete(int id) {
+        log.info("delete user = {} ", id);
+        userRepository.delete(id);
+    }
 }

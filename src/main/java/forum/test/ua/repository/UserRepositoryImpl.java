@@ -226,6 +226,26 @@ public class UserRepositoryImpl implements UserRepository {
         return user;
     }
 
+    @Override
+    public void delete(int id) {
+        String method = "_deleteUser";
+        Connection conn = null;
+        CallableStatement cs = null;
+        ResultSet rs = null;
+        try {
+            log.info("_delete user started");
+            conn = dataSource.getConnection();
+            cs = conn.prepareCall("{call _deleteUser (?)}");
+            cs.setInt(1, id);
+            cs.execute();
+            //deleteRoles();
+        }catch (SQLException exc) {
+            throw new SystemException(method, exc.getCause());
+        } finally {
+            JDBCUtility.freeUpResources(conn, cs, rs);
+        }
+    }
+
     private User setRoles(User u) {
         if (u != null) {
             String method = "_setRoles";

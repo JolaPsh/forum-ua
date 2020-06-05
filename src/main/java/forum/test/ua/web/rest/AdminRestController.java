@@ -82,5 +82,6 @@ public class AdminRestController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("id") int id) {
         log.info(" deleteUser {{}} ", id);
+        userService.delete(id);
     }
 }
