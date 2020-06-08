@@ -111,7 +111,7 @@ BEGIN
 END;
 $$;
 
-alter function _deleteRoles(in integer, out refcursor) owner to postgres;
+alter function _deleteRoles(in integer) owner to postgres;
 ---------------------------------------------------------------------------------------------------------------
 create or replace function _insertRoles(in pi_user_id integer, in pi_user_role varchar) returns void
     language plpgsql

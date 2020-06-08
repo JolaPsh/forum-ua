@@ -21,7 +21,7 @@ public class JDBCUtility {
             try {
                 conn.close();
             } catch (SQLException exc) {
-                log.warn("");
+                log.warn("failed to close connection", exc);
             }
         }
 
@@ -29,7 +29,7 @@ public class JDBCUtility {
             try {
                 stmt.close();
             } catch (SQLException exc) {
-                log.warn("");
+                log.warn("failed to close statement", exc);
             }
         }
 
@@ -37,7 +37,7 @@ public class JDBCUtility {
             try {
                 rs.close();
             } catch (SQLException exc) {
-                log.warn("");
+                log.warn("failed to close result set", exc);
             }
         }
     }

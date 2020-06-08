@@ -2,7 +2,7 @@ package forum.test.ua.repository;
 
 import forum.test.ua.model.Role;
 import forum.test.ua.model.User;
-import forum.test.ua.util.exceptions.ApplicationException;
+import forum.test.ua.util.exceptions.NotFoundException;
 import forum.test.ua.util.exceptions.SystemException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +64,7 @@ public class UserRepositoryImpl implements UserRepository {
                     setRoles(user);
             }
             else {
-                throw new ApplicationException("User not found, id =" + id);
+                throw new NotFoundException("User not found, id =" + id);
             }
         } catch (SQLException exc) {
             throw new SystemException(method, exc.getCause());
@@ -103,7 +103,7 @@ public class UserRepositoryImpl implements UserRepository {
                 setRoles(user);
             }
             else {
-                throw new ApplicationException("User not found, email =" + email);
+                throw new NotFoundException("User not found, email =" + email);
             }
         } catch (SQLException exc) {
             throw new SystemException(method, exc.getCause());
@@ -142,7 +142,7 @@ public class UserRepositoryImpl implements UserRepository {
                 setRoles(user);
             }
             else {
-                throw new ApplicationException("User not found, username =" + username);
+                throw new NotFoundException("User not found, username =" + username);
             }
         } catch (SQLException exc) {
             throw new SystemException(method, exc.getCause());
@@ -232,18 +232,21 @@ public class UserRepositoryImpl implements UserRepository {
         Connection conn = null;
         CallableStatement cs = null;
         ResultSet rs = null;
+        User u = findUserById(id);
+
         try {
             log.info("_delete user started");
             conn = dataSource.getConnection();
             cs = conn.prepareCall("{call _deleteUser (?)}");
-            cs.setInt(1, id);
-            cs.execute();
-            //deleteRoles();
+            cs.setInt(1, u.getId());
+            cs.executeUpdate();
         }catch (SQLException exc) {
+            exc.printStackTrace();
             throw new SystemException(method, exc.getCause());
         } finally {
             JDBCUtility.freeUpResources(conn, cs, rs);
         }
+        deleteRoles(u);
     }
 
     private User setRoles(User u) {
@@ -315,7 +318,6 @@ public class UserRepositoryImpl implements UserRepository {
 
             try {
                 conn = dataSource.getConnection();
-                conn.setAutoCommit(false);
                 cs = conn.prepareCall("{call _deleteRoles (?)}");
                 cs.setInt(1, u.getId());
                 cs.execute();

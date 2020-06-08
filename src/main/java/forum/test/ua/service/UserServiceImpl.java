@@ -3,7 +3,7 @@ package forum.test.ua.service;
 import forum.test.ua.AuthorizedUser;
 import forum.test.ua.model.User;
 import forum.test.ua.repository.UserRepository;
-import forum.test.ua.util.exceptions.ApplicationException;
+import forum.test.ua.util.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,17 +41,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User findUserById(int id) throws ApplicationException {
+    public User findUserById(int id) throws NotFoundException {
         return userRepository.findUserById(id);
     }
 
     @Override
-    public User findByEmail(String email) throws ApplicationException {
+    public User findByEmail(String email) throws NotFoundException {
         return userRepository.findByEmail(email);
     }
 
     @Override
-    public User findByUsername(String username) throws ApplicationException {
+    public User findByUsername(String username) throws NotFoundException {
         return userRepository.findByUsername(username);
     }
 
@@ -70,7 +70,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws NotFoundException {
         log.info("delete user = {} ", id);
         userRepository.delete(id);
     }
