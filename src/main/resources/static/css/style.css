@@ -117,12 +117,12 @@ input {
 
 .error-message{
     height: 50px;
-    line-height: 50px;
     color: white;
-    background: #d75959;
-    font-size: 16px;
-    border: 2px solid #ffffff;
+    background: #ea6262;
+    font-size: 13px;
+    border: 1px solid #ffffff;
     text-align: center;
+    vertical-align: top;
 }
 
 input::-webkit-input-placeholder {

@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
 /**
  * Created by Joanna Pakosh, 07.2019
@@ -82,7 +81,7 @@ public class RootController {
     @PostMapping("/register")
     @ResponseStatus(value = HttpStatus.CREATED)
     public String registerNewUser(final ModelMap model, @ModelAttribute("userTo") @Valid UserTo userTo,
-                                  final BindingResult bindResult) throws MailException, IOException {
+                                  final BindingResult bindResult) throws MailException {
 
         if (bindResult.hasErrors()) {
             log.error("[User is not valid]");

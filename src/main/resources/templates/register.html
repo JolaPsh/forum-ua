@@ -14,7 +14,7 @@
                 <div class="form-row">
                     <div class="col-md-10">
                         <div class="form-group">
-                            <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
                         </div>
                         <div class="form-group form-input">
                             <i class="far fa-user"></i>
@@ -47,7 +47,7 @@
             </form>
         </sec:authorize>
     </div>
-        <div class="text-end-register"><a th:href="@{/login.html}">
+        <div class="text-end-register"><a th:href="@{~/login.html}">
             <h>Back to Login</h>
         </a>
         </div>
