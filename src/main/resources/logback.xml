@@ -22,11 +22,8 @@
         </encoder>
     </appender>
 
-    <logger name="forum.propsUtil.ua" level="debug"/>
-<!--    <logger name="org.springframework.security" level="debug"/>-->
     <logger name="org.postgresql.Driver" level="debug"/>
-    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="debug"/>
-    <logger name="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate" level="debug"/>
+    <logger name="javax.sql.DataSource" level="debug"/>
 
     <root level="info">
         <appender-ref ref="file"/>
