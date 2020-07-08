@@ -5,6 +5,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+
 /**
  * Created by Joanna Pakosh, 07.2019
  */
@@ -20,7 +23,7 @@ public class MailServiceImpl implements MailService {
   }
 
   @Override
-  public void sendRegistrationConfirmation(final MimeMessagePreparator msg) {
+  public void sendRegistrationConfirmation(final MimeMessagePreparator msg) throws MessagingException, IOException {
     javaMailSender.send(msg);
   }
 }

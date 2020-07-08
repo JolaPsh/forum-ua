@@ -1,6 +1,6 @@
 package forum.test.ua.web;
 
-import forum.test.ua.service.MailServiceImpl;
+import forum.test.ua.service.MailService;
 import forum.test.ua.service.UserService;
 import forum.test.ua.to.UserTo;
 import forum.test.ua.util.Constants;
@@ -24,7 +24,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * Created by Joanna Pakosh, 07.2019
@@ -36,16 +38,16 @@ public class RootController {
     private final Logger log = LoggerFactory.getLogger(RootController.class);
 
     private final UserService userService;
-    private final MailServiceImpl mailServiceImpl;
+    private final MailService mailService;
     private static final String authorizationRequestBaseUri = "oauth2/authorization";
 
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
     @Autowired
-    public RootController(UserService userService, MailServiceImpl mailServiceImpl) {
+    public RootController(UserService userService, MailService mailService) {
         this.userService = userService;
-        this.mailServiceImpl = mailServiceImpl;
+        this.mailService = mailService;
     }
 
     @GetMapping(value = {"/", "/login"})
@@ -81,7 +83,7 @@ public class RootController {
     @PostMapping("/register")
     @ResponseStatus(value = HttpStatus.CREATED)
     public String registerNewUser(final ModelMap model, @ModelAttribute("userTo") @Valid UserTo userTo,
-                                  final BindingResult bindResult) throws MailException {
+                                  final BindingResult bindResult) throws MailException, IOException, MessagingException {
 
         if (bindResult.hasErrors()) {
             log.error("[User is not valid]");
@@ -90,8 +92,9 @@ public class RootController {
 
         try {
             userService.create(UserUtil.createNewUser(userTo));
-            mailServiceImpl.sendRegistrationConfirmation(msg -> {
+            mailService.sendRegistrationConfirmation(msg -> {
                         MimeMessageHelper msgHelper = new MimeMessageHelper(msg, true, "UTF-8");
+                        msgHelper.setFrom("test.yjava77@gmail.com");
                         msgHelper.setTo(userTo.getEmail());
                         msgHelper.setSubject(Constants.MESSAGE_SUBJECT);
                         msgHelper.setText("Dear " + userTo.getUsername() + "!\n" + Constants.MESSAGE_BODY);
@@ -99,9 +102,8 @@ public class RootController {
             );
             log.debug("Sending registration confirmation...");
 
-            model.addAttribute("successMessage", "User has been registered successfully");
-            model.addAttribute("confirmMail", "To verify the data provided we have sent "
-                    + "you a confirmation email. Follow the link below.");
+            model.addAttribute("successMessage", Constants.MESSAGE_SUCCESSED);
+            model.addAttribute("confirmMail", Constants.MESSAGE_CONFIRM_EMAIL);
             log.info("User {}, name: {} has been registered successfully!", userTo.getEmail(),
                     userTo.getUsername());
             return "registeredSuccess";
