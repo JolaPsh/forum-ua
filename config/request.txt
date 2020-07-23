@@ -1,3 +1,0 @@
-GET user by id : http://localhost:8080/admin/rest/user/10001
-GET user by email: http://localhost:8080/admin/rest/user/admin@gmail.com
-
