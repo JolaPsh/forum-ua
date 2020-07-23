@@ -82,13 +82,12 @@ public class OAuth2SecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ROLE_ADMIN')")
                 .and().httpBasic();
 
-        http.authorizeRequests()
-                .antMatchers("/login**",
-                        "/register**",
-                        "/signin/**").permitAll()
+        http.requiresChannel()
+                .antMatchers("/**", "/login**",
+                        "/register**").requiresSecure()
+                .and()
+                .authorizeRequests()
                 .antMatchers("/home**").access("hasRole('ROLE_USER')")
-                //  .anyRequest().authenticated()
-                //  .and().httpBasic()
                 .and().csrf().disable()
                 .formLogin()
                 .loginPage("/login")

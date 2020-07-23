@@ -4,6 +4,7 @@ import forum.test.ua.service.MailService;
 import forum.test.ua.service.UserService;
 import forum.test.ua.to.UserTo;
 import forum.test.ua.util.Constants;
+import forum.test.ua.util.PropsUtil;
 import forum.test.ua.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Created by Joanna Pakosh, 07.2019
@@ -86,20 +88,21 @@ public class RootController {
                                   final BindingResult bindResult) throws MailException, IOException, MessagingException {
 
         if (bindResult.hasErrors()) {
-            log.error("[User is not valid]");
             return "register";
         }
 
         try {
-            userService.create(UserUtil.createNewUser(userTo));
+            Properties props = new PropsUtil().getProps();
             mailService.sendRegistrationConfirmation(msg -> {
                         MimeMessageHelper msgHelper = new MimeMessageHelper(msg, true, "UTF-8");
-                        msgHelper.setFrom("test.yjava77@gmail.com");
+                        msgHelper.setFrom(props.getProperty("mail.username"));
                         msgHelper.setTo(userTo.getEmail());
                         msgHelper.setSubject(Constants.MESSAGE_SUBJECT);
                         msgHelper.setText("Dear " + userTo.getUsername() + "!\n" + Constants.MESSAGE_BODY);
                     }
             );
+
+            userService.create(UserUtil.createNewUser(userTo));
             log.debug("Sending registration confirmation...");
 
             model.addAttribute("successMessage", Constants.MESSAGE_SUCCESSED);
