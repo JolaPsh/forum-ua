@@ -26,7 +26,7 @@
         <!--mail-api-->
         <javax.mail.version>1.6.2</javax.mail.version>
         <!--DB-->
-        <postgresql.version>42.2.2</postgresql.version>
+        <postgresql.version>42.3.3</postgresql.version>
         <!--webjars-->
         <webjars-bootstrap.version>4.3.1</webjars-bootstrap.version>
         <webjars-jquery.version>3.3.1</webjars-jquery.version>
